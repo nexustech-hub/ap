@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANTHROPRESS Coffee</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #1a1a1a;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(20, 20, 20, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid #333;
+            padding: 15px 0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        .login-btn {
+            position: absolute;
+            right: 20px;
+            background: #fff;
+            color: #333;
+            padding: 8px 16px;
+            border: none;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background: #ccc;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url('https://images.unsplash.com/photo-1511920170033-f8396924c348?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            font-weight: 300;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            color: #ccc;
+        }
+
+        /* About Section */
+        .about {
+            padding: 80px 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        .about h2 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 40px;
+            letter-spacing: 1px;
+            color: #fff;
+        }
+
+        .about p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #ccc;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        /* Gallery Section */
+        .gallery {
+            padding: 80px 0;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 0;
+        }
+
+        .gallery-item {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: white;
+            padding: 30px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        /* Menu Section */
+        .menu {
+            padding: 80px 20px;
+            background: #f8f8f8;
+        }
+
+        .menu-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .menu h2 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 60px;
+            letter-spacing: 1px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .menu-category {
+            background: white;
+            padding: 40px 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .menu-category h3 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px dotted #ddd;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .menu-item-name {
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .menu-item-price {
+            font-size: 1rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* Location Section */
+        .location {
+            padding: 80px 20px;
+        }
+
+        .location-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .location-info h2 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 40px;
+            letter-spacing: 1px;
+        }
+
+        .location-details {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .location-image {
+            height: 400px;
+            background: url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Story Section */
+        .story {
+            padding: 80px 20px;
+            background: #2c2c2c;
+            color: white;
+        }
+
+        .story-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .story h2 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 40px;
+            letter-spacing: 1px;
+        }
+
+        .story p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #ccc;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 80px 20px;
+            background: #f8f8f8;
+        }
+
+        .contact-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 40px;
+            letter-spacing: 1px;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .contact-item h3 {
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .contact-item p {
+            font-size: 1rem;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background: #0f0f0f;
+            color: white;
+            padding: 40px 20px 20px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .footer-info {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            font-size: 0.8rem;
+            color: #999;
+            border-top: 1px solid #555;
+            padding-top: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 15px;
+            }
+
+            .nav-links a {
+                font-size: 12px;
+            }
+
+            .login-btn {
+                padding: 6px 12px;
+                font-size: 11px;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+
+            .gallery-item {
+                height: 300px;
+            }
+
+            .location-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .location-image {
+                height: 250px;
+            }
+
+            .contact-info {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#home">HOME</a></li>
+                <li><a href="#about">ABOUT</a></li>
+                <li><a href="#menu">MENU</a></li>
+                <li><a href="#location">LOCATION</a></li>
+                <li><a href="#story">STORY</a></li>
+                <li><a href="#contact">CONTACT</a></li>
+            </ul>
+            <button class="login-btn">LOGIN</button>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>ANTHROPRESS COFFEE</h1>
+            <p>Where old meets new, creating something beautiful</p>
+        </div>
+    </section>
+
+    <section id="about" class="about fade-in">
+        <h2>ABOUT ANTHROPRESS</h2>
+        <p>2009년, 서울 합정동의 버려진 신발공장을 개조하여 문을 연 앤트러사이트 커피는 '낡은 것에서 발견하는 고유한 본질'을 추구합니다.</p>
+        <p>우리는 단순히 커피를 파는 것이 아닌, 공간과 시간이 만들어내는 이야기를 전합니다. 산업적 공간의 거친 매력과 정성스럽게 로스팅된 커피의 따뜻함이 조화를 이루는 곳입니다.</p>
+        <p>뉴욕에서 음악과 철학을 공부한 창립자가 한국에 가져온 새로운 카페 문화는 이제 서울 곳곳에서 사람들의 일상이 되었습니다.</p>
+    </section>
+
+    <section class="gallery">
+        <div class="gallery-grid">
+            <div class="gallery-item fade-in">
+                <img src="./images/coffee-roasting.jpg" alt="커피 로스팅">
+                <div class="gallery-overlay">
+                    <h3>COFFEE ROASTING</h3>
+                    <p>직접 로스팅하는 신선한 원두</p>
+                </div>
+            </div>
+            <div class="gallery-item fade-in">
+                <img src="./images/cafe-interior.jpg" alt="카페 인테리어">
+                <div class="gallery-overlay">
+                    <h3>INDUSTRIAL SPACE</h3>
+                    <p>공장을 개조한 독특한 공간</p>
+                </div>
+            </div>
+            <div class="gallery-item fade-in">
+                <img src="./images/coffee-brewing.jpg" alt="커피 추출">
+                <div class="gallery-overlay">
+                    <h3>BREWING</h3>
+                    <p>정성스럽게 추출하는 커피</p>
+                </div>
+            </div>
+            <div class="gallery-item fade-in">
+                <img src="./images/desserts.jpg" alt="디저트">
+                <div class="gallery-overlay">
+                    <h3>BAKERY</h3>
+                    <p>매일 구워내는 신선한 베이커리</p>
+                </div>
+            </div>
+            <div class="gallery-item fade-in">
+                <img src="./images/atmosphere.jpg" alt="카페 분위기">
+                <div class="gallery-overlay">
+                    <h3>ATMOSPHERE</h3>
+                    <p>특별한 순간을 만드는 공간</p>
+                </div>
+            </div>
+            <div class="gallery-item fade-in">
+                <img src="./images/equipment.jpg" alt="커피 장비">
+                <div class="gallery-overlay">
+                    <h3>EQUIPMENT</h3>
+                    <p>전문적인 커피 장비와 도구</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu" class="menu">
+        <div class="menu-container">
+            <h2 class="fade-in">OUR MENU</h2>
+            <div class="menu-grid">
+                <div class="menu-category fade-in">
+                    <h3>ESPRESSO</h3>
+                    <div class="menu-item">
+                        <span class="menu-item-name">Espresso</span>
+                        <span class="menu-item-price">4,000</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-item-name">Americano</span>
+                        <span class="menu-item-price">4,500</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-item-name">Cappuccino</span>
+                        <span class="menu-item-price">5,500</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-item-name">Latte</span>
+                        <span class="menu-item-price">5,500</span>
+                    </div>
+                </div>
+                <div class="menu-category fade-in">
+                    <h3>SPECIALTY</h3>
+                    <div class="menu-item">
+                        <span class="menu-item-name">ANTHROPRESS Blend</span>
+                        <span class="menu-item-price">6,000</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-item-name">Single Origin</span>
+                        <span class="menu-item-price">6,500</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-item-name">Cold Brew</span>
+                        <span class="menu-item-price">5,000</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-item-name">Pour Over</span>
+                        <span class="menu-item-price">7,000</span>
+                    </div>
+                </div>
+                <div class="menu-category fade-in">
+                    <h3>BAKERY</h3>
+                    <div class="menu-item">
+                        <span class="menu-item-name">Croissant</span>
+                        <span class="menu-item-price">3,500</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-item-name">Scone</span>
+                        <span class="menu-item-price">4,000</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-item-name">Muffin</span>
+                        <span class="menu-item-price">3,800</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-item-name">Sandwich</span>
+                        <span class="menu-item-price">8,000</span>
+                    </div>
+                </div>
+            </div>="menu-item">
+                        <span class="menu-item-name">Croissant</span>
+                        <span class="menu-item-price">3,500</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-item-name">Scone</span>
+                        <span class="menu-item-price">4,000</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-item-name">Muffin</span>
+                        <span class="menu-item-price">3,800</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-item-name">Sandwich</span>
+                        <span class="menu-item-price">8,000</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="location" class="location">
+        <div class="location-container">
+            <div class="location-info fade-in">
+                <h2>LOCATION</h2>
+                <div class="location-details">
+                    <p><strong>ANTHROPRESS COFFEE HAPJEONG</strong></p>
+                    <p>서울시 마포구 와우산로29나길 9</p>
+                    <p>Tel. 02-3273-5941</p>
+                    <br>
+                    <p><strong>HOURS</strong></p>
+                    <p>Mon - Sun: 8:00 - 22:00</p>
+                    <br>
+                    <p>지하철 6호선 합정역 2번 출구에서 도보 5분</p>
+                    <p>버려진 신발공장을 개조한 독특한 공간에서<br>진정한 커피의 맛을 경험해보세요.</p>
+                </div>
+            </div>
+            <div class="location-image fade-in"></div>
+        </div>
+    </section>
+
+    <section id="story" class="story">
+        <div class="story-container fade-in">
+            <h2>OUR STORY</h2>
+            <p>2007년 여름부터 '김약국'이라는 커피트럭으로 시작된 앤트러사이트의 이야기는 'No machine, only drip coffee'라는 신념에서 출발했습니다.</p>
+            <p>자본 없이도 좋은 커피를 만들 수 있다는 결심으로 진행된 진지한 실험이었습니다. 손님 한 명 한 명에게 우리가 어떻게 커피를 내리는지, 왜 우리 커피에서 꽃향기가 나는지, 초콜릿 맛은 어디서 오는지 설명했습니다.</p>
+            <p>아마도 그 덕분에 우리 커피를 즐기는 사람들이 늘어났고, 커피 매니아들도 생겨났을 것입니다. 식사 후 바로 커피를 사러 오는 사람들, 점심시간에 오는 사람들, 일터로 돌아가기 전 마지막 30분의 여유를 즐기러 오는 사람들까지.</p>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="contact-container">
+            <h2 class="fade-in">CONTACT</h2>
+            <div class="contact-info">
+                <div class="contact-item fade-in">
+                    <h3>GENERAL INQUIRY</h3>
+                    <p>hello@ANTHROPRESScoffee.com</p>
+                    <p>02-3273-5941</p>
+                </div>
+                <div class="contact-item fade-in">
+                    <h3>BUSINESS</h3>
+                    <p>business@ANTHROPRESScoffee.com</p>
+                    <p>02-3273-5942</p>
+                </div>
+                <div class="contact-item fade-in">
+                    <h3>PRESS</h3>
+                    <p>press@ANTHROPRESScoffee.com</p>
+                    <p>02-3273-5943</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <p>ANTHROPRESS Coffee. (주) 앤트러사이트커피</p>
+                <p>CEO. Bang Hyun Joo</p>
+                <p>240 Itaewon-ro, Yongsan-gu, Seoul, Rep of Korea.</p>
+                <p>Business Reg. 495-88-00190 | Ecommerce License. 2016-서울용산-00449</p>
+            </div>
+            <div class="footer-links">
+                <a href="#">이용약관</a>
+                <a href="#">개인정보처리방침</a>
+                <a href="#">사업자정보확인</a>
+            </div>
+            <div class="copyright">
+                <p>Copyright © ANTHROPRESS Coffee. 2017 All rights reserved. Site designed by Araby Studio</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerHeight = 80;
+                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(15, 15, 15, 0.98)';
+            } else {
+                header.style.background = 'rgba(20, 20, 20, 0.95)';
+            }
+        });
+
+        // Login button
+        document.querySelector('.login-btn').addEventListener('click', function() {
+            alert('로그인 페이지로 이동합니다.');
+        });
+
+        // Gallery interactions
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const title = this.querySelector('h3').textContent;
+                alert(`${title} 갤러리를 보시겠습니까?`);
+            });
+        });
+    </script>
+</body>
+</html>
